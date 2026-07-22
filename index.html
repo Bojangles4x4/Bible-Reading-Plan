@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f3a5f" />
+  <title>Ten-Category Bible Reading Plan</title>
+  <style>
+    :root {
+      --navy: #1f3a5f;
+      --navy-2: #294d78;
+      --cream: #fbfaf6;
+      --paper: #ffffff;
+      --gold: #b38732;
+      --text: #17202a;
+      --muted: #617080;
+      --line: #d9e0e7;
+      --green: #2f7d4a;
+      --green-soft: #e7f4eb;
+      --danger: #9d2f2f;
+      --shadow: 0 12px 28px rgba(31,58,95,.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #eef3f8 0, var(--cream) 240px);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    button, input { font: inherit; }
+    .shell { width: min(1040px, calc(100% - 28px)); margin: 0 auto; padding: 24px 0 56px; }
+    header {
+      color: white;
+      background: linear-gradient(135deg, var(--navy), var(--navy-2));
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .75rem; opacity: .78; }
+    h1 { margin: 6px 0 8px; font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.05; }
+    header p { margin: 0; opacity: .86; max-width: 720px; line-height: 1.5; }
+    .toolbar, .progress-panel, .settings-panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(31,58,95,.06);
+    }
+    .toolbar {
+      margin-top: 18px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+    .toolbar-center { text-align: center; }
+    .day-title { font-weight: 800; font-size: 1.18rem; }
+    .date-title { color: var(--muted); font-size: .92rem; margin-top: 2px; }
+    .btn {
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .btn:hover { border-color: #9fb0c2; }
+    .btn.primary { background: var(--navy); color: white; border-color: var(--navy); }
+    .btn.success { background: var(--green); color: white; border-color: var(--green); }
+    .btn.danger { color: var(--danger); }
+    .btn.small { padding: 8px 11px; font-size: .9rem; }
+    .progress-panel {
+      margin-top: 14px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .progress-row strong { color: var(--text); }
+    .progress-track {
+      height: 12px;
+      background: #edf1f4;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--green), #55a76b);
+      transition: width .2s ease;
+    }
+    .day-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .reading-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 7px 18px rgba(31,58,95,.05);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 13px;
+      align-items: center;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+      cursor: pointer;
+      min-height: 100px;
+    }
+    .reading-card:hover { transform: translateY(-1px); border-color: #aebdcb; }
+    .reading-card.done { background: var(--green-soft); border-color: #a8d4b6; }
+    .check {
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      border: 2px solid #9babb9;
+      border-radius: 8px;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      background: white;
+    }
+    .check::before {
+      content: "✓";
+      transform: scale(0);
+      color: white;
+      font-size: 18px;
+      line-height: 1;
+      transition: transform .1s ease;
+    }
+    .check:checked { background: var(--green); border-color: var(--green); }
+    .check:checked::before { transform: scale(1); }
+    .category-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: .08em;
+      font-size: .75rem;
+    }
+    .reference { margin-top: 5px; font-size: 1.28rem; font-weight: 850; }
+    .cycle-note { color: var(--muted); font-size: .78rem; margin-top: 4px; }
+    .settings-panel { margin-top: 18px; padding: 16px; }
+    .settings-panel summary { cursor: pointer; font-weight: 800; }
+    .settings-content {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .field label { display: block; font-weight: 750; margin-bottom: 6px; }
+    .field input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      background: white;
+    }
+    .settings-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; }
+    .footnote {
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.5;
+      margin: 18px 4px 0;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%) translateY(20px);
+      background: #17202a;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 10;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    @media (max-width: 720px) {
+      .grid { grid-template-columns: 1fr; }
+      .toolbar { grid-template-columns: 1fr 1fr; }
+      .toolbar-center { grid-column: 1 / -1; grid-row: 1; }
+      .toolbar button:first-child { grid-column: 1; grid-row: 2; }
+      .toolbar button:last-child { grid-column: 2; grid-row: 2; }
+      .settings-content { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Bible Plan" />
+
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div class="eyebrow">365-Day Plan</div>
+      <h1>Ten-Category Bible Reading</h1>
+      <p>Read one chapter from each category every day. Each category loops back to its first assigned book when completed.</p>
+    </header>
+
+    <section class="toolbar" aria-label="Day navigation">
+      <button class="btn" id="previousDay">← Previous</button>
+      <div class="toolbar-center">
+        <div class="day-title" id="dayTitle">Day 1</div>
+        <div class="date-title" id="dateTitle"></div>
+      </div>
+      <button class="btn" id="nextDay">Next →</button>
+    </section>
+
+    <section class="progress-panel">
+      <div class="progress-row">
+        <span>Today: <strong id="todayProgress">0 of 10</strong></span>
+        <span>Year: <strong id="yearProgress">0 of 3,650</strong></span>
+      </div>
+      <div class="progress-track" aria-label="Annual progress">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="day-actions">
+        <button class="btn primary small" id="todayButton">Go to Today</button>
+        <button class="btn success small" id="markDayButton">Mark Day Complete</button>
+        <button class="btn small" id="clearDayButton">Clear Day</button>
+      </div>
+    </section>
+
+    <section class="grid" id="readingGrid" aria-live="polite"></section>
+
+    <details class="settings-panel">
+      <summary>Plan settings and backup</summary>
+      <div class="settings-content">
+        <div class="field">
+          <label for="startDate">Plan start date</label>
+          <input id="startDate" type="date" />
+        </div>
+        <div class="field">
+          <label for="dayNumber">Jump to day</label>
+          <input id="dayNumber" type="number" min="1" max="365" />
+        </div>
+        <div class="settings-actions">
+          <button class="btn small" id="exportButton">Export Progress</button>
+          <label class="btn small" for="importInput" style="display:inline-block;">Import Progress</label>
+          <input id="importInput" type="file" accept="application/json" hidden />
+          <button class="btn danger small" id="resetButton">Reset Everything</button>
+        </div>
+      </div>
+    </details>
+
+    <p class="footnote">
+      Progress is saved on this device in this browser. Export a backup before clearing browser data or moving to another device.
+    </p>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const CATEGORY_BOOKS = {"1": [["Genesis", 50], ["Exodus", 40]], "2": [["Leviticus", 27], ["Numbers", 36], ["Deuteronomy", 34], ["Joshua", 24], ["Judges", 21]], "3": [["Ruth", 4], ["1 Samuel", 31], ["2 Samuel", 24], ["1 Kings", 22], ["2 Kings", 25], ["1 Chronicles", 29], ["2 Chronicles", 36], ["Ezra", 10], ["Nehemiah", 13], ["Esther", 10]], "4": [["Psalms", 150]], "5": [["Proverbs", 31], ["John", 21], ["Romans", 16]], "6": [["Job", 42], ["Ecclesiastes", 12], ["Song of Solomon", 8], ["Lamentations", 5], ["Ezekiel", 48], ["Daniel", 12], ["Hosea", 14], ["Joel", 3], ["Amos", 9], ["Obadiah", 1], ["Jonah", 4], ["Micah", 7], ["Nahum", 3], ["Habakkuk", 3], ["Zephaniah", 3], ["Haggai", 2], ["Zechariah", 14], ["Malachi", 4]], "7": [["Isaiah", 66], ["Jeremiah", 52]], "8": [["Matthew", 28], ["Mark", 16], ["Luke", 24]], "9": [["Acts", 28], ["Titus", 3], ["Philemon", 1], ["Hebrews", 13], ["James", 5], ["1 Peter", 5], ["2 Peter", 3], ["1 John", 5], ["2 John", 1], ["3 John", 1], ["Jude", 1], ["Revelation", 22]], "10": [["1 Corinthians", 16], ["2 Corinthians", 13], ["Galatians", 6], ["Ephesians", 6], ["Philippians", 4], ["Colossians", 4], ["1 Thessalonians", 5], ["2 Thessalonians", 3], ["1 Timothy", 6], ["2 Timothy", 4]]};
+    const STORAGE_KEY = "tenCategoryBiblePlan.v1";
+
+    function buildSequence(bookList) {
+      const sequence = [];
+      for (const [book, count] of bookList) {
+        for (let chapter = 1; chapter <= count; chapter++) {
+          sequence.push(`${book} ${chapter}`);
+        }
+      }
+      return sequence;
+    }
+
+    const sequences = {};
+    for (let category = 1; category <= 10; category++) {
+      sequences[category] = buildSequence(CATEGORY_BOOKS[String(category)]);
+    }
+
+    function defaultStartDate() {
+      const now = new Date();
+      return `${now.getFullYear()}-01-01`;
+    }
+
+    function loadState() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return {
+          startDate: parsed?.startDate || defaultStartDate(),
+          selectedDay: Math.min(365, Math.max(1, Number(parsed?.selectedDay) || 1)),
+          checked: parsed?.checked || {}
+        };
+      } catch {
+        return { startDate: defaultStartDate(), selectedDay: 1, checked: {} };
+      }
+    }
+
+    let state = loadState();
+
+    const grid = document.getElementById("readingGrid");
+    const dayTitle = document.getElementById("dayTitle");
+    const dateTitle = document.getElementById("dateTitle");
+    const todayProgress = document.getElementById("todayProgress");
+    const yearProgress = document.getElementById("yearProgress");
+    const progressFill = document.getElementById("progressFill");
+    const startDateInput = document.getElementById("startDate");
+    const dayNumberInput = document.getElementById("dayNumber");
+    const toast = document.getElementById("toast");
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1700);
+    }
+
+    function storageId(day, category) {
+      return `d${day}c${category}`;
+    }
+
+    function getReading(day, category) {
+      const sequence = sequences[category];
+      return sequence[(day - 1) % sequence.length];
+    }
+
+    function dateForDay(day) {
+      const [year, month, date] = state.startDate.split("-").map(Number);
+      const result = new Date(year, month - 1, date);
+      result.setDate(result.getDate() + day - 1);
+      return result;
+    }
+
+    function formatDate(date) {
+      return new Intl.DateTimeFormat(undefined, {
+        weekday: "long", year: "numeric", month: "long", day: "numeric"
+      }).format(date);
+    }
+
+    function todayDayNumber() {
+      const [year, month, date] = state.startDate.split("-").map(Number);
+      const start = new Date(year, month - 1, date);
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const diff = Math.floor((today - start) / 86400000) + 1;
+      return Math.min(365, Math.max(1, diff));
+    }
+
+    function render() {
+      const day = state.selectedDay;
+      dayTitle.textContent = `Day ${day}`;
+      dateTitle.textContent = formatDate(dateForDay(day));
+      startDateInput.value = state.startDate;
+      dayNumberInput.value = day;
+
+      grid.innerHTML = "";
+      let dayChecked = 0;
+
+      for (let category = 1; category <= 10; category++) {
+        const id = storageId(day, category);
+        const checked = Boolean(state.checked[id]);
+        if (checked) dayChecked++;
+
+        const total = sequences[category].length;
+        const position = ((day - 1) % total) + 1;
+
+        const label = document.createElement("label");
+        label.className = `reading-card${checked ? " done" : ""}`;
+        label.innerHTML = `
+          <input class="check" type="checkbox" ${checked ? "checked" : ""} aria-label="Mark Category ${category} complete" />
+          <div>
+            <div class="category-label">Category ${category}</div>
+            <div class="reference">${getReading(day, category)}</div>
+            <div class="cycle-note">Chapter ${position} of ${total} in this category cycle</div>
+          </div>
+        `;
+
+        const checkbox = label.querySelector("input");
+        checkbox.addEventListener("change", () => {
+          if (checkbox.checked) state.checked[id] = true;
+          else delete state.checked[id];
+          saveState();
+          render();
+        });
+
+        grid.appendChild(label);
+      }
+
+      const totalChecked = Object.keys(state.checked).length;
+      todayProgress.textContent = `${dayChecked} of 10`;
+      yearProgress.textContent = `${totalChecked.toLocaleString()} of 3,650`;
+      progressFill.style.width = `${(totalChecked / 3650) * 100}%`;
+
+      document.getElementById("previousDay").disabled = day <= 1;
+      document.getElementById("nextDay").disabled = day >= 365;
+      document.getElementById("markDayButton").textContent =
+        dayChecked === 10 ? "Day Complete ✓" : "Mark Day Complete";
+    }
+
+    document.getElementById("previousDay").addEventListener("click", () => {
+      state.selectedDay = Math.max(1, state.selectedDay - 1);
+      saveState();
+      render();
+    });
+
+    document.getElementById("nextDay").addEventListener("click", () => {
+      state.selectedDay = Math.min(365, state.selectedDay + 1);
+      saveState();
+      render();
+    });
+
+    document.getElementById("todayButton").addEventListener("click", () => {
+      state.selectedDay = todayDayNumber();
+      saveState();
+      render();
+    });
+
+    document.getElementById("markDayButton").addEventListener("click", () => {
+      for (let category = 1; category <= 10; category++) {
+        state.checked[storageId(state.selectedDay, category)] = true;
+      }
+      saveState();
+      render();
+      showToast("Day marked complete");
+    });
+
+    document.getElementById("clearDayButton").addEventListener("click", () => {
+      for (let category = 1; category <= 10; category++) {
+        delete state.checked[storageId(state.selectedDay, category)];
+      }
+      saveState();
+      render();
+      showToast("Day cleared");
+    });
+
+    startDateInput.addEventListener("change", () => {
+      if (!startDateInput.value) return;
+      state.startDate = startDateInput.value;
+      saveState();
+      render();
+      showToast("Start date updated");
+    });
+
+    dayNumberInput.addEventListener("change", () => {
+      const value = Math.min(365, Math.max(1, Number(dayNumberInput.value) || 1));
+      state.selectedDay = value;
+      saveState();
+      render();
+    });
+
+    document.getElementById("exportButton").addEventListener("click", () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "bible-reading-progress.json";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Progress exported");
+    });
+
+    document.getElementById("importInput").addEventListener("change", async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        const imported = JSON.parse(await file.text());
+        state = {
+          startDate: imported.startDate || defaultStartDate(),
+          selectedDay: Math.min(365, Math.max(1, Number(imported.selectedDay) || 1)),
+          checked: imported.checked || {}
+        };
+        saveState();
+        render();
+        showToast("Progress imported");
+      } catch {
+        alert("That file could not be imported.");
+      }
+      event.target.value = "";
+    });
+
+    document.getElementById("resetButton").addEventListener("click", () => {
+      if (!confirm("Reset the start date and erase all checked readings?")) return;
+      state = { startDate: defaultStartDate(), selectedDay: 1, checked: {} };
+      saveState();
+      render();
+      showToast("Plan reset");
+    });
+
+    // On the first launch, start at today's position in the current-year plan.
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      state.selectedDay = todayDayNumber();
+      saveState();
+    }
+
+    render();
+  </script>
+
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+      });
+    }
+  </script>
+
+</body>
+</html>
