@@ -1,7 +1,7 @@
 {
   "name": "Ten-Category Bible Reading Plan",
   "short_name": "Bible Plan",
-  "description": "A 365-day Bible reading tracker with ten daily reading categories.",
+  "description": "A 365-day ten-category Bible reading tracker with direct Legacy Standard Bible chapter links.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

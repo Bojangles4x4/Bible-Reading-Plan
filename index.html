@@ -153,6 +153,29 @@
       font-size: .75rem;
     }
     .reference { margin-top: 5px; font-size: 1.28rem; font-weight: 850; }
+    .reading-content { min-width: 0; }
+    .reading-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 9px;
+    }
+    .lsb-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: white;
+      background: var(--navy);
+      border: 1px solid var(--navy);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-weight: 800;
+      font-size: .82rem;
+      white-space: nowrap;
+    }
+    .lsb-link:hover { background: var(--navy-2); border-color: var(--navy-2); }
     .cycle-note { color: var(--muted); font-size: .78rem; margin-top: 4px; }
     .settings-panel { margin-top: 18px; padding: 16px; }
     .settings-panel summary { cursor: pointer; font-weight: 800; }
@@ -214,7 +237,7 @@
     <header>
       <div class="eyebrow">365-Day Plan</div>
       <h1>Ten-Category Bible Reading</h1>
-      <p>Read one chapter from each category every day. Each category loops back to its first assigned book when completed.</p>
+      <p>Read one chapter from each category every day. Open every chapter directly in the Legacy Standard Bible and check it off when finished.</p>
     </header>
 
     <section class="toolbar" aria-label="Day navigation">
@@ -379,18 +402,25 @@
         const total = sequences[category].length;
         const position = ((day - 1) % total) + 1;
 
-        const label = document.createElement("label");
-        label.className = `reading-card${checked ? " done" : ""}`;
-        label.innerHTML = `
+        const reference = getReading(day, category);
+        const lsbUrl = `https://read.lsbible.org/?q=${encodeURIComponent(reference)}`;
+
+        const card = document.createElement("article");
+        card.className = `reading-card${checked ? " done" : ""}`;
+        card.innerHTML = `
           <input class="check" type="checkbox" ${checked ? "checked" : ""} aria-label="Mark Category ${category} complete" />
-          <div>
+          <div class="reading-content">
             <div class="category-label">Category ${category}</div>
-            <div class="reference">${getReading(day, category)}</div>
-            <div class="cycle-note">Chapter ${position} of ${total} in this category cycle</div>
+            <div class="reference">${reference}</div>
+            <div class="reading-footer">
+              <div class="cycle-note">Chapter ${position} of ${total} in this category cycle</div>
+              <a class="lsb-link" href="${lsbUrl}" target="_blank" rel="noopener noreferrer"
+                 aria-label="Read ${reference} in the Legacy Standard Bible">Read in LSB ↗</a>
+            </div>
           </div>
         `;
 
-        const checkbox = label.querySelector("input");
+        const checkbox = card.querySelector("input");
         checkbox.addEventListener("change", () => {
           if (checkbox.checked) state.checked[id] = true;
           else delete state.checked[id];
@@ -398,7 +428,7 @@
           render();
         });
 
-        grid.appendChild(label);
+        grid.appendChild(card);
       }
 
       const totalChecked = Object.keys(state.checked).length;
