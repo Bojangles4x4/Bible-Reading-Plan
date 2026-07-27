@@ -11,96 +11,585 @@
   <link rel="apple-touch-icon" href="icon-192.png" />
   <title>Ten-Category Bible Reading Plan</title>
   <style>
-    :root{--navy:#1f3a5f;--navy2:#294d78;--cream:#fbfaf6;--paper:#fff;--gold:#b38732;--text:#17202a;--muted:#617080;--line:#d9e0e7;--green:#2f7d4a;--green-soft:#e7f4eb;--amber:#b77713;--amber-soft:#fff3d6;--danger:#9d2f2f;--blue-soft:#e8f1f8;--shadow:0 12px 28px rgba(31,58,95,.12)}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef3f8 0,var(--cream) 245px)}button,input,select{font:inherit}.shell{width:min(1050px,calc(100% - 28px));margin:auto;padding:24px 0 60px}header{color:white;background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:22px;padding:24px;box-shadow:var(--shadow)}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.75rem;opacity:.78}h1{margin:6px 0 8px;font-size:clamp(1.9rem,5vw,3rem);line-height:1.05}header p{margin:0;opacity:.86;max-width:760px;line-height:1.5}.panel,.toolbar{background:var(--paper);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 20px rgba(31,58,95,.06)}.toolbar{margin-top:18px;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}.toolbar-center{text-align:center}.day-title{font-weight:850;font-size:1.18rem}.date-title{color:var(--muted);font-size:.92rem;margin-top:2px}.btn{border:1px solid var(--line);background:white;color:var(--text);border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:760}.btn:hover{border-color:#9fb0c2}.btn.primary{background:var(--navy);color:white;border-color:var(--navy)}.btn.success{background:var(--green);color:white;border-color:var(--green)}.btn.amber{background:var(--amber);color:white;border-color:var(--amber)}.btn.danger{color:var(--danger)}.btn.small{padding:8px 11px;font-size:.9rem}.btn:disabled{opacity:.45;cursor:not-allowed}.panel{margin-top:14px;padding:16px}.panel h2{margin:0 0 12px;font-size:1.13rem}.progress-row{display:flex;justify-content:space-between;gap:18px;color:var(--muted);font-size:.92rem}.progress-row strong{color:var(--text)}.progress-track{height:12px;background:#edf1f4;border-radius:999px;overflow:hidden;margin:11px 0}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),#55a76b);transition:.2s}.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.handoff{border-color:#9db8cf;background:linear-gradient(150deg,#eaf3fa,#fff)}.handoff-grid{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center}.handoff-icon{width:42px;height:42px;border-radius:13px;background:var(--navy);color:white;display:grid;place-items:center;font-size:20px}.handoff-copy strong{display:block}.handoff-copy span{display:block;color:var(--muted);font-size:.84rem;margin-top:3px}.catchup-panel{border-color:#e6c477;background:linear-gradient(180deg,#fffaf0,#fff)}.catchup-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}.mini-stat{background:white;border:1px solid #ead8aa;border-radius:13px;padding:11px;text-align:center}.mini-stat strong{display:block;font-size:1.2rem}.mini-stat span{color:var(--muted);font-size:.76rem}select{border:1px solid var(--line);border-radius:10px;padding:8px;background:white}.continue-box{background:var(--blue-soft);border:1px solid #b9cee0;border-radius:14px;padding:13px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.continue-copy strong{display:block}.continue-copy span{color:var(--muted);font-size:.84rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.reading-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 7px 18px rgba(31,58,95,.05);display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;min-height:112px}.reading-card.done{background:var(--green-soft);border-color:#a8d4b6}.reading-card.catchup{background:var(--amber-soft);border-color:#e1bf6b}.reading-card.next-up{box-shadow:0 0 0 3px rgba(31,58,95,.15),0 7px 18px rgba(31,58,95,.05)}.check{appearance:none;width:26px;height:26px;border:2px solid #9babb9;border-radius:8px;display:grid;place-content:center;cursor:pointer;background:white;margin-top:2px}.check::before{content:"✓";transform:scale(0);color:white;font-size:18px;line-height:1;transition:.1s}.check:checked{background:var(--green);border-color:var(--green)}.check:checked::before{transform:scale(1)}.category-label{color:var(--gold);text-transform:uppercase;font-weight:850;letter-spacing:.08em;font-size:.75rem}.catchup .category-label{color:var(--amber)}.reference{margin-top:5px;font-size:1.27rem;font-weight:850}.cycle-note{color:var(--muted);font-size:.78rem;margin-top:4px}.reading-footer{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-top:10px;flex-wrap:wrap}.category-progress-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category-progress{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}.category-progress-head{display:flex;justify-content:space-between;gap:10px;font-weight:800}.category-progress-meta{color:var(--muted);font-size:.78rem;margin:5px 0 8px;line-height:1.4}.category-bar{height:8px;background:#edf1f4;border-radius:999px;overflow:hidden}.category-bar-fill{height:100%;background:var(--green)}.settings-panel summary,.progress-details summary{cursor:pointer;font-weight:830}.settings-content{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px}.field label{display:block;font-weight:760;margin-bottom:6px}.field input{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:white}.footnote{color:var(--muted);font-size:.86rem;line-height:1.5;margin:18px 4px 0}.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:#17202a;color:white;padding:10px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.2s;z-index:20}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    @media(max-width:720px){.grid,.category-progress-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 1fr}.toolbar-center{grid-column:1/-1;grid-row:1}.toolbar button:first-child,.toolbar button:last-child{grid-row:2}.settings-content{grid-template-columns:1fr}.catchup-summary{grid-template-columns:repeat(3,1fr)}.handoff-grid{grid-template-columns:38px 1fr}.handoff-grid .btn{grid-column:1/-1}.handoff-icon{width:38px;height:38px}}
+    :root {
+      --navy:#1f3a5f; --navy2:#294d78; --cream:#fbfaf6; --paper:#fff;
+      --gold:#b38732; --text:#17202a; --muted:#617080; --line:#d9e0e7;
+      --green:#2f7d4a; --green-soft:#e7f4eb; --amber:#b77713;
+      --amber-soft:#fff3d6; --danger:#9d2f2f; --blue-soft:#e8f1f8;
+      --shadow:0 12px 28px rgba(31,58,95,.12);
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; min-height:100vh; color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:linear-gradient(180deg,#eef3f8 0,var(--cream) 245px);
+    }
+    button,input,select { font:inherit; }
+    .shell { width:min(1050px,calc(100% - 28px)); margin:auto; padding:24px 0 60px; }
+    header {
+      color:white; background:linear-gradient(135deg,var(--navy),var(--navy2));
+      border-radius:22px; padding:24px; box-shadow:var(--shadow);
+    }
+    .eyebrow { text-transform:uppercase; letter-spacing:.14em; font-size:.75rem; opacity:.78; }
+    h1 { margin:6px 0 8px; font-size:clamp(1.9rem,5vw,3rem); line-height:1.05; }
+    header p { margin:0; opacity:.86; max-width:760px; line-height:1.5; }
+    .panel,.toolbar {
+      background:var(--paper); border:1px solid var(--line); border-radius:18px;
+      box-shadow:0 8px 20px rgba(31,58,95,.06);
+    }
+    .toolbar {
+      margin-top:18px; padding:14px; display:grid; grid-template-columns:auto 1fr auto;
+      gap:12px; align-items:center;
+    }
+    .toolbar-center { text-align:center; }
+    .day-title { font-weight:850; font-size:1.18rem; }
+    .date-title { color:var(--muted); font-size:.92rem; margin-top:2px; }
+    .btn {
+      border:1px solid var(--line); background:white; color:var(--text); border-radius:12px;
+      padding:10px 14px; cursor:pointer; font-weight:760;
+    }
+    .btn:hover { border-color:#9fb0c2; }
+    .btn.primary { background:var(--navy); color:white; border-color:var(--navy); }
+    .btn.success { background:var(--green); color:white; border-color:var(--green); }
+    .btn.amber { background:var(--amber); color:white; border-color:var(--amber); }
+    .btn.audio { background:#7a3fb0; color:white; border-color:#7a3fb0; }
+    .btn.danger { color:var(--danger); }
+    .btn.small { padding:8px 11px; font-size:.9rem; }
+    .btn:disabled { opacity:.45; cursor:not-allowed; }
+    .panel { margin-top:14px; padding:16px; }
+    .panel h2 { margin:0 0 12px; font-size:1.13rem; }
+    .progress-row {
+      display:flex; justify-content:space-between; gap:18px; color:var(--muted); font-size:.92rem;
+    }
+    .progress-row strong { color:var(--text); }
+    .progress-track { height:12px; background:#edf1f4; border-radius:999px; overflow:hidden; margin:11px 0; }
+    .progress-fill { height:100%; width:0; background:linear-gradient(90deg,var(--green),#55a76b); transition:.2s; }
+    .actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .catchup-panel { border-color:#e6c477; background:linear-gradient(180deg,#fffaf0,#fff); }
+    .catchup-summary {
+      display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; margin-bottom:12px;
+    }
+    .mini-stat { background:white; border:1px solid #ead8aa; border-radius:13px; padding:11px; text-align:center; }
+    .mini-stat strong { display:block; font-size:1.2rem; }
+    .mini-stat span { color:var(--muted); font-size:.76rem; }
+    select {
+      border:1px solid var(--line); border-radius:10px; padding:8px; background:white;
+    }
+    .continue-box {
+      background:var(--blue-soft); border:1px solid #b9cee0; border-radius:14px; padding:13px;
+      display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap;
+    }
+    .continue-copy strong { display:block; }
+    .continue-copy span { color:var(--muted); font-size:.84rem; }
+    .grid {
+      display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px;
+    }
+    .reading-card {
+      background:var(--paper); border:1px solid var(--line); border-radius:18px; padding:16px;
+      box-shadow:0 7px 18px rgba(31,58,95,.05); display:grid;
+      grid-template-columns:auto 1fr; gap:13px; align-items:start; min-height:112px;
+    }
+    .reading-card.done { background:var(--green-soft); border-color:#a8d4b6; }
+    .reading-card.catchup { background:var(--amber-soft); border-color:#e1bf6b; }
+    .check {
+      appearance:none; width:26px; height:26px; border:2px solid #9babb9; border-radius:8px;
+      display:grid; place-content:center; cursor:pointer; background:white; margin-top:2px;
+    }
+    .check::before { content:"✓"; transform:scale(0); color:white; font-size:18px; line-height:1; transition:.1s; }
+    .check:checked { background:var(--green); border-color:var(--green); }
+    .check:checked::before { transform:scale(1); }
+    .category-label {
+      color:var(--gold); text-transform:uppercase; font-weight:850; letter-spacing:.08em; font-size:.75rem;
+    }
+    .catchup .category-label { color:var(--amber); }
+    .reference { margin-top:5px; font-size:1.27rem; font-weight:850; }
+    .cycle-note { color:var(--muted); font-size:.78rem; margin-top:4px; }
+    .reading-footer {
+      display:flex; justify-content:space-between; align-items:center; gap:9px; margin-top:10px; flex-wrap:wrap;
+    }
+    .lsb-link {
+      text-decoration:none; color:white; background:var(--navy); border-radius:10px;
+      padding:7px 10px; font-weight:800; font-size:.82rem; white-space:nowrap;
+    }
+    .category-progress-grid {
+      display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;
+    }
+    .category-progress {
+      border:1px solid var(--line); border-radius:14px; padding:12px; background:#fff;
+    }
+    .category-progress-head { display:flex; justify-content:space-between; gap:10px; font-weight:800; }
+    .category-progress-meta { color:var(--muted); font-size:.78rem; margin:5px 0 8px; line-height:1.4; }
+    .category-bar { height:8px; background:#edf1f4; border-radius:999px; overflow:hidden; }
+    .category-bar-fill { height:100%; background:var(--green); }
+    .settings-panel summary,.progress-details summary { cursor:pointer; font-weight:830; }
+    .settings-content { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
+    .field label { display:block; font-weight:760; margin-bottom:6px; }
+    .field input { width:100%; border:1px solid var(--line); border-radius:10px; padding:10px; background:white; }
+    .footnote { color:var(--muted); font-size:.86rem; line-height:1.5; margin:18px 4px 0; }
+    .toast {
+      position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(20px);
+      background:#17202a; color:white; padding:10px 16px; border-radius:999px;
+      opacity:0; pointer-events:none; transition:.2s; z-index:20;
+    }
+    .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+    @media(max-width:720px) {
+      .grid,.category-progress-grid { grid-template-columns:1fr; }
+      .toolbar { grid-template-columns:1fr 1fr; }
+      .toolbar-center { grid-column:1/-1; grid-row:1; }
+      .toolbar button:first-child { grid-row:2; }
+      .toolbar button:last-child { grid-row:2; }
+      .settings-content { grid-template-columns:1fr; }
+      .catchup-summary { grid-template-columns:repeat(3,1fr); }
+    }
   </style>
 </head>
 <body>
 <main class="shell">
-  <header><div class="eyebrow">365-Day Plan · Connected Edition</div><h1>Ten-Category Bible Reading</h1><p>Read one chapter from each category, open it directly in the Legacy Standard Bible, keep catch-up progress intact, and send today’s completion back to Daily Routine.</p></header>
+  <header>
+    <div class="eyebrow">365-Day Plan</div>
+    <h1>Ten-Category Bible Reading</h1>
+    <p>Read or listen to one chapter from each category in the Legacy Standard Bible, then keep moving through the plan without losing your place.</p>
+  </header>
 
-  <section class="panel handoff" id="routineHandoff" hidden>
-    <div class="handoff-grid"><div class="handoff-icon">✓</div><div class="handoff-copy"><strong>Linked with Daily Routine</strong><span id="routineHandoffStatus">Your progress will be sent back when you return.</span></div><button class="btn primary" id="returnToRoutineButton" type="button">Return to Daily Routine</button></div>
+  <section class="toolbar" aria-label="Day navigation">
+    <button class="btn" id="previousDay">← Previous</button>
+    <div class="toolbar-center">
+      <div class="day-title" id="dayTitle">Day 1</div>
+      <div class="date-title" id="dateTitle"></div>
+    </div>
+    <button class="btn" id="nextDay">Next →</button>
   </section>
 
-  <section class="toolbar" aria-label="Day navigation"><button class="btn" id="previousDay">← Previous</button><div class="toolbar-center"><div class="day-title" id="dayTitle">Day 1</div><div class="date-title" id="dateTitle"></div></div><button class="btn" id="nextDay">Next →</button></section>
+  <section class="panel">
+    <div class="progress-row">
+      <span>Selected day: <strong id="dayProgress">0 of 10</strong></span>
+      <span>Year: <strong id="yearProgress">0 of 3,650</strong></span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="actions">
+      <button class="btn primary small" id="todayButton">Go to Today</button>
+      <button class="btn success small" id="markDayButton">Mark Day Complete</button>
+      <button class="btn small" id="clearDayButton">Clear Day</button>
+    </div>
+  </section>
 
-  <section class="panel"><div class="progress-row"><span>Selected day: <strong id="dayProgress">0 of 10</strong></span><span>Year: <strong id="yearProgress">0 of 3,650</strong></span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="actions"><button class="btn primary small" id="todayButton">Go to Today</button><button class="btn success small" id="markDayButton">Mark Day Complete</button><button class="btn small" id="clearDayButton">Clear Day</button></div></section>
+  <section class="panel">
+    <h2>Continue reading</h2>
+    <div class="continue-box">
+      <div class="continue-copy">
+        <strong id="nextReadingTitle">Your next unfinished chapter</strong>
+        <span id="nextReadingMeta">The app will select the first unfinished reading.</span>
+      </div>
+      <div class="actions">
+        <button class="btn primary small" id="readNextButton">Read Next in LSB</button>
+        <button class="btn audio small" id="listenNextButton">▶ Listen Next in LSB</button>
+        <button class="btn success small" id="completeAndNextButton" hidden>Mark Read & Continue</button>
+      </div>
+    </div>
+  </section>
 
-  <section class="panel"><h2>Continue reading</h2><div class="continue-box"><div class="continue-copy"><strong id="nextReadingTitle">Your next unfinished chapter</strong><span id="nextReadingMeta">The app will select the first unfinished reading.</span></div><div class="actions"><button class="btn primary small" id="readNextButton">Read Next in LSB</button><button class="btn success small" id="completeAndNextButton" hidden>Mark Read & Open Next</button></div></div></section>
-
-  <section class="panel catchup-panel"><h2>Catch-up mode</h2><div class="catchup-summary"><div class="mini-stat"><strong id="missedDaysCount">0</strong><span>missed days</span></div><div class="mini-stat"><strong id="missedReadingsCount">0</strong><span>unfinished readings</span></div><div class="mini-stat"><strong id="earliestMissed">—</strong><span>earliest missed</span></div></div><div class="actions"><button class="btn amber small" id="openMissedButton">Open Earliest Missed Day</button><label><span class="sr-only">Spread over</span><select id="spreadDays"><option value="2">Spread over 2 days</option><option value="3" selected>Spread over 3 days</option><option value="5">Spread over 5 days</option></select></label><button class="btn amber small" id="spreadMissedButton">Schedule Catch-up Extras</button><button class="btn small" id="skipMissedButton">Skip Earliest Missed Day</button><button class="btn small" id="unskipDayButton">Unskip Selected Day</button></div></section>
+  <section class="panel catchup-panel">
+    <h2>Catch-up mode</h2>
+    <div class="catchup-summary">
+      <div class="mini-stat"><strong id="missedDaysCount">0</strong><span>missed days</span></div>
+      <div class="mini-stat"><strong id="missedReadingsCount">0</strong><span>unfinished readings</span></div>
+      <div class="mini-stat"><strong id="earliestMissed">—</strong><span>earliest missed</span></div>
+    </div>
+    <div class="actions">
+      <button class="btn amber small" id="openMissedButton">Open Earliest Missed Day</button>
+      <label>
+        <span class="sr-only">Spread over</span>
+        <select id="spreadDays">
+          <option value="2">Spread over 2 days</option>
+          <option value="3" selected>Spread over 3 days</option>
+          <option value="5">Spread over 5 days</option>
+        </select>
+      </label>
+      <button class="btn amber small" id="spreadMissedButton">Schedule Catch-up Extras</button>
+      <button class="btn small" id="skipMissedButton">Skip Earliest Missed Day</button>
+      <button class="btn small" id="unskipDayButton">Unskip Selected Day</button>
+    </div>
+  </section>
 
   <section class="grid" id="readingGrid" aria-live="polite"></section>
-  <details class="panel progress-details" open><summary>Progress by category</summary><div class="category-progress-grid" id="categoryProgressGrid" style="margin-top:12px"></div></details>
-  <details class="panel settings-panel"><summary>Plan settings and backup</summary><div class="settings-content"><div class="field"><label for="startDate">Plan start date</label><input id="startDate" type="date" /></div><div class="field"><label for="dayNumber">Jump to day</label><input id="dayNumber" type="number" min="1" max="365" /></div><div class="actions"><button class="btn small" id="exportButton">Export Progress</button><label class="btn small" for="importInput" style="display:inline-block">Import Progress</label><input id="importInput" type="file" accept="application/json" hidden /><button class="btn danger small" id="resetButton">Reset Everything</button></div></div></details>
-  <p class="footnote">Progress remains stored under the same local key as the prior app. Catch-up extras stay attached to their original day. The Daily Routine connection shares only compact day-level reading progress, not the rest of your Bible app data.</p>
+
+  <details class="panel progress-details" open>
+    <summary>Progress by category</summary>
+    <div class="category-progress-grid" id="categoryProgressGrid" style="margin-top:12px;"></div>
+  </details>
+
+  <details class="panel settings-panel">
+    <summary>Plan settings and backup</summary>
+    <div class="settings-content">
+      <div class="field">
+        <label for="startDate">Plan start date</label>
+        <input id="startDate" type="date" />
+      </div>
+      <div class="field">
+        <label for="dayNumber">Jump to day</label>
+        <input id="dayNumber" type="number" min="1" max="365" />
+      </div>
+      <div class="actions">
+        <button class="btn small" id="exportButton">Export Progress</button>
+        <label class="btn small" for="importInput" style="display:inline-block;">Import Progress</label>
+        <input id="importInput" type="file" accept="application/json" hidden />
+        <button class="btn danger small" id="resetButton">Reset Everything</button>
+      </div>
+    </div>
+  </details>
+
+  <p class="footnote">
+    Catch-up extras remain linked to their original day. Audio opens the licensed LSB Audio Bible channel and searches that channel for the selected chapter.
+  </p>
 </main>
 <div class="toast" id="toast"></div>
+
 <script>
-(() => {
-'use strict';
-const CATEGORY_BOOKS={"1":[["Genesis",50],["Exodus",40]],"2":[["Leviticus",27],["Numbers",36],["Deuteronomy",34],["Joshua",24],["Judges",21]],"3":[["Ruth",4],["1 Samuel",31],["2 Samuel",24],["1 Kings",22],["2 Kings",25],["1 Chronicles",29],["2 Chronicles",36],["Ezra",10],["Nehemiah",13],["Esther",10]],"4":[["Psalms",150]],"5":[["Proverbs",31],["John",21],["Romans",16]],"6":[["Job",42],["Ecclesiastes",12],["Song of Solomon",8],["Lamentations",5],["Ezekiel",48],["Daniel",12],["Hosea",14],["Joel",3],["Amos",9],["Obadiah",1],["Jonah",4],["Micah",7],["Nahum",3],["Habakkuk",3],["Zephaniah",3],["Haggai",2],["Zechariah",14],["Malachi",4]],"7":[["Isaiah",66],["Jeremiah",52]],"8":[["Matthew",28],["Mark",16],["Luke",24]],"9":[["Acts",28],["Titus",3],["Philemon",1],["Hebrews",13],["James",5],["1 Peter",5],["2 Peter",3],["1 John",5],["2 John",1],["3 John",1],["Jude",1],["Revelation",22]],"10":[["1 Corinthians",16],["2 Corinthians",13],["Galatians",6],["Ephesians",6],["Philippians",4],["Colossians",4],["1 Thessalonians",5],["2 Thessalonians",3],["1 Timothy",6],["2 Timothy",4]]};
-const STORAGE_KEY='tenCategoryBiblePlan.v1';
-const INTEGRATION_KEY='dailyRoutine.integration.bibleReading.v1';
-const INTEGRATION_CHANNEL='dailyRoutine.integrations.v1';
-const $=id=>document.getElementById(id);
+const CATEGORY_BOOKS = {"1": [["Genesis", 50], ["Exodus", 40]], "2": [["Leviticus", 27], ["Numbers", 36], ["Deuteronomy", 34], ["Joshua", 24], ["Judges", 21]], "3": [["Ruth", 4], ["1 Samuel", 31], ["2 Samuel", 24], ["1 Kings", 22], ["2 Kings", 25], ["1 Chronicles", 29], ["2 Chronicles", 36], ["Ezra", 10], ["Nehemiah", 13], ["Esther", 10]], "4": [["Psalms", 150]], "5": [["Proverbs", 31], ["John", 21], ["Romans", 16]], "6": [["Job", 42], ["Ecclesiastes", 12], ["Song of Solomon", 8], ["Lamentations", 5], ["Ezekiel", 48], ["Daniel", 12], ["Hosea", 14], ["Joel", 3], ["Amos", 9], ["Obadiah", 1], ["Jonah", 4], ["Micah", 7], ["Nahum", 3], ["Habakkuk", 3], ["Zephaniah", 3], ["Haggai", 2], ["Zechariah", 14], ["Malachi", 4]], "7": [["Isaiah", 66], ["Jeremiah", 52]], "8": [["Matthew", 28], ["Mark", 16], ["Luke", 24]], "9": [["Acts", 28], ["Titus", 3], ["Philemon", 1], ["Hebrews", 13], ["James", 5], ["1 Peter", 5], ["2 Peter", 3], ["1 John", 5], ["2 John", 1], ["3 John", 1], ["Jude", 1], ["Revelation", 22]], "10": [["1 Corinthians", 16], ["2 Corinthians", 13], ["Galatians", 6], ["Ephesians", 6], ["Philippians", 4], ["Colossians", 4], ["1 Thessalonians", 5], ["2 Thessalonians", 3], ["1 Timothy", 6], ["2 Timothy", 4]]};
+const STORAGE_KEY = "tenCategoryBiblePlan.v1";
+
+function buildSequence(bookList) {
+  const sequence=[];
+  for(const [book,count] of bookList) {
+    for(let chapter=1; chapter<=count; chapter++) sequence.push(`${book} ${chapter}`);
+  }
+  return sequence;
+}
 const sequences={};
-for(let category=1;category<=10;category++)sequences[category]=buildSequence(CATEGORY_BOOKS[String(category)]);
-let integrationChannel=null;
-let returnUrl='';
-let launchedFromRoutine=false;
+for(let category=1;category<=10;category++) sequences[category]=buildSequence(CATEGORY_BOOKS[String(category)]);
 
-function buildSequence(bookList){const sequence=[];for(const[book,count]of bookList)for(let chapter=1;chapter<=count;chapter++)sequence.push(`${book} ${chapter}`);return sequence}
-function defaultStartDate(){const now=new Date();return `${now.getFullYear()}-01-01`}
-function normalizeState(parsed){return{startDate:parsed?.startDate||defaultStartDate(),selectedDay:Math.min(365,Math.max(1,Number(parsed?.selectedDay)||1)),checked:parsed?.checked||{},skippedDays:parsed?.skippedDays||{},catchUpAssignments:Array.isArray(parsed?.catchUpAssignments)?parsed.catchUpAssignments:[],lastOpened:parsed?.lastOpened||null,completionTimes:parsed?.completionTimes||{}}}
-function loadState(){try{return normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEY)))}catch{return normalizeState({})}}
+function defaultStartDate() {
+  const now=new Date();
+  return `${now.getFullYear()}-01-01`;
+}
+function normalizeState(parsed) {
+  return {
+    startDate: parsed?.startDate || defaultStartDate(),
+    selectedDay: Math.min(365,Math.max(1,Number(parsed?.selectedDay)||1)),
+    checked: parsed?.checked || {},
+    skippedDays: parsed?.skippedDays || {},
+    catchUpAssignments: Array.isArray(parsed?.catchUpAssignments) ? parsed.catchUpAssignments : [],
+    lastOpened: parsed?.lastOpened || null
+  };
+}
+function loadState() {
+  try { return normalizeState(JSON.parse(localStorage.getItem(STORAGE_KEY))); }
+  catch { return normalizeState({}); }
+}
 let state=loadState();
-function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
-function showToast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>el.classList.remove('show'),1800)}
-function storageId(day,category){return`d${day}c${category}`}
-function getReading(day,category){const sequence=sequences[category];return sequence[(day-1)%sequence.length]}
-function localDateKey(date){return`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
-function dateForDay(day){const[y,m,d]=state.startDate.split('-').map(Number);const result=new Date(y,m-1,d,12,0,0,0);result.setDate(result.getDate()+day-1);return result}
-function dayForDateKey(key){const target=new Date(`${key}T12:00:00`);const start=new Date(`${state.startDate}T12:00:00`);if(Number.isNaN(target.getTime())||Number.isNaN(start.getTime()))return todayDayNumber();return Math.min(365,Math.max(1,Math.round((target-start)/86400000)+1))}
-function formatDate(date){return new Intl.DateTimeFormat(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(date)}
-function todayDayNumber(){return dayForDateKey(localDateKey(new Date()))}
-function dayReadCount(day){let count=0;for(let c=1;c<=10;c++)if(state.checked[storageId(day,c)])count++;return count}
-function dayComplete(day){return dayReadCount(day)===10}
-function isSkipped(day){return Boolean(state.skippedDays[String(day)])}
-function missedDays(){const today=todayDayNumber(),result=[];for(let day=1;day<today;day++)if(!dayComplete(day)&&!isSkipped(day))result.push(day);return result}
-function incompleteForDay(day){const items=[];for(let category=1;category<=10;category++)if(!state.checked[storageId(day,category)])items.push({sourceDay:day,category});return items}
-function cleanupAssignments(){const seen=new Set();state.catchUpAssignments=state.catchUpAssignments.filter(item=>{const id=storageId(item.sourceDay,item.category),key=`${id}-t${item.targetDay}`;if(state.checked[id]||seen.has(key))return false;seen.add(key);return true})}
-function assignmentsForDay(day){cleanupAssignments();return state.catchUpAssignments.filter(a=>a.targetDay===day&&!state.checked[storageId(a.sourceDay,a.category)])}
-function annualCheckedCount(){let total=0;for(let day=1;day<=365;day++)for(let c=1;c<=10;c++)if(state.checked[storageId(day,c)])total++;return total}
-function categoryCheckedCount(category){let count=0;for(let day=1;day<=365;day++)if(state.checked[storageId(day,category)])count++;return count}
-function readingDescriptor(item){const reference=getReading(item.sourceDay,item.category);return{...item,reference,id:storageId(item.sourceDay,item.category)}}
-function nextRegularItem(day){for(let category=1;category<=10;category++)if(!state.checked[storageId(day,category)])return readingDescriptor({sourceDay:day,category,targetDay:day,kind:'regular'});return null}
-function nextUnfinishedItem(){const day=state.selectedDay;return nextRegularItem(day)||(()=>{const extra=assignmentsForDay(day)[0];return extra?readingDescriptor({...extra,kind:'catchup'}):null})()}
-function openReading(item){if(!item)return;state.lastOpened={sourceDay:item.sourceDay,category:item.category,targetDay:state.selectedDay};saveState();renderContinue();window.open(`https://read.lsbible.org/?q=${encodeURIComponent(item.reference)}`,'_blank','noopener')}
-function markItemComplete(item){if(!item)return;const before=dayComplete(item.sourceDay);state.checked[storageId(item.sourceDay,item.category)]=true;if(!before&&dayComplete(item.sourceDay))state.completionTimes[String(item.sourceDay)]=new Date().toISOString();cleanupAssignments();saveState();publishIntegration()}
-function nextAfterLastOpened(){if(!state.lastOpened)return null;const item=readingDescriptor(state.lastOpened);return state.checked[item.id]?null:item}
-function setChecked(day,category,checked){const id=storageId(day,category),before=dayComplete(day);if(checked)state.checked[id]=true;else delete state.checked[id];const after=dayComplete(day);if(!before&&after)state.completionTimes[String(day)]=new Date().toISOString();if(before&&!after)delete state.completionTimes[String(day)];cleanupAssignments();saveState();publishIntegration()}
 
-function renderCard(item,catchup=false){const descriptor=readingDescriptor(item),checked=Boolean(state.checked[descriptor.id]),total=sequences[item.category].length,position=((item.sourceDay-1)%total)+1,card=document.createElement('article');const next=nextUnfinishedItem();card.className=`reading-card${checked?' done':''}${catchup?' catchup':''}${next?.id===descriptor.id?' next-up':''}`;card.innerHTML=`<input class="check" type="checkbox" ${checked?'checked':''} aria-label="Mark ${escapeHtml(descriptor.reference)} complete"><div><div class="category-label">${catchup?`Catch-up · Day ${item.sourceDay} · `:''}Category ${item.category}</div><div class="reference">${escapeHtml(descriptor.reference)}</div><div class="cycle-note">${catchup?'Scheduled catch-up reading':`Chapter ${position} of ${total} in this category cycle`}</div><div class="reading-footer"><button class="btn small read-card-button" type="button">Read in LSB ↗</button>${catchup?'<button class="btn small remove-extra-button" type="button">Remove extra</button>':''}</div></div>`;card.querySelector('.check').addEventListener('change',event=>{setChecked(item.sourceDay,item.category,event.target.checked);render()});card.querySelector('.read-card-button').addEventListener('click',()=>openReading(descriptor));card.querySelector('.remove-extra-button')?.addEventListener('click',()=>{state.catchUpAssignments=state.catchUpAssignments.filter(a=>!(a.sourceDay===item.sourceDay&&a.category===item.category&&a.targetDay===item.targetDay));saveState();render();showToast('Catch-up extra removed')});return card}
-function renderContinue(){const last=nextAfterLastOpened(),next=nextUnfinishedItem();$('completeAndNextButton').hidden=!last;if(last){$('nextReadingTitle').textContent=`Return from ${last.reference}?`;$('nextReadingMeta').textContent='Mark it complete, then open the next unfinished chapter.'}else if(next){$('nextReadingTitle').textContent=next.reference;$('nextReadingMeta').textContent=`Day ${next.sourceDay}, Category ${next.category}${next.kind==='catchup'?' · Catch-up':''}`}else{$('nextReadingTitle').textContent='Selected day is complete';$('nextReadingMeta').textContent='There are no unfinished readings scheduled for this day.'}$('readNextButton').disabled=!next}
-function renderCatchup(){const missed=missedDays(),total=missed.reduce((sum,day)=>sum+incompleteForDay(day).length,0);$('missedDaysCount').textContent=missed.length;$('missedReadingsCount').textContent=total;$('earliestMissed').textContent=missed.length?`Day ${missed[0]}`:'—';$('openMissedButton').disabled=!missed.length;$('spreadMissedButton').disabled=!missed.length;$('skipMissedButton').disabled=!missed.length;$('unskipDayButton').disabled=!isSkipped(state.selectedDay)}
-function renderCategoryProgress(){const container=$('categoryProgressGrid');container.innerHTML='';const today=todayDayNumber();for(let category=1;category<=10;category++){const completed=categoryCheckedCount(category),percent=completed/365*100,cycleLength=sequences[category].length,cycle=Math.floor((today-1)/cycleLength)+1,position=((today-1)%cycleLength)+1,reference=getReading(today,category),el=document.createElement('div');el.className='category-progress';el.innerHTML=`<div class="category-progress-head"><span>Category ${category}</span><span>${completed}/365</span></div><div class="category-progress-meta">Today: ${escapeHtml(reference)} · Cycle ${cycle}, chapter ${position} of ${cycleLength}</div><div class="category-bar"><div class="category-bar-fill" style="width:${percent}%"></div></div>`;container.appendChild(el)}}
-function renderHandoff(){if(!launchedFromRoutine){$('routineHandoff').hidden=true;return}$('routineHandoff').hidden=false;const count=dayReadCount(state.selectedDay),next=nextRegularItem(state.selectedDay);$('routineHandoffStatus').textContent=count===10?`10/10 complete for ${formatDate(dateForDay(state.selectedDay))}. Return to update Daily Routine.`:`${count}/10 complete${next?` · Next: ${next.reference}`:''}`;$('returnToRoutineButton').textContent=count===10?'Return · Day complete ✓':'Return to Daily Routine'}
-function render(){cleanupAssignments();const day=state.selectedDay;$('dayTitle').textContent=`Day ${day}${isSkipped(day)?' · Skipped':''}`;$('dateTitle').textContent=formatDate(dateForDay(day));$('startDate').value=state.startDate;$('dayNumber').value=day;const grid=$('readingGrid');grid.innerHTML='';for(let category=1;category<=10;category++)grid.appendChild(renderCard({sourceDay:day,category,targetDay:day},false));assignmentsForDay(day).forEach(extra=>grid.appendChild(renderCard(extra,true)));const checked=dayReadCount(day),annual=annualCheckedCount(),extras=assignmentsForDay(day);$('dayProgress').textContent=`${checked} of 10${extras.length?` + ${extras.length} catch-up`:''}`;$('yearProgress').textContent=`${annual.toLocaleString()} of 3,650`;$('progressFill').style.width=`${annual/3650*100}%`;$('previousDay').disabled=day<=1;$('nextDay').disabled=day>=365;$('markDayButton').textContent=checked===10?'Day Complete ✓':'Mark Day Complete';renderContinue();renderCatchup();renderCategoryProgress();renderHandoff();saveState();publishIntegration()}
+const $=id=>document.getElementById(id);
+const grid=$("readingGrid");
 
-function integrationRecord(day,previous={}){const completed=dayReadCount(day),next=nextRegularItem(day),complete=completed===10;return{date:localDateKey(dateForDay(day)),dayNumber:day,completed,total:10,completedAt:complete?(state.completionTimes[String(day)]||previous.completedAt||new Date().toISOString()):'',nextCategory:next?.category||null,nextReference:next?.reference||'',updatedAt:new Date().toISOString()}}
-function publishIntegration(){let integration={};try{integration=JSON.parse(localStorage.getItem(INTEGRATION_KEY)||'{}')||{}}catch{integration={}}const days={...(integration.days||{})};for(let day=1;day<=365;day++){const key=localDateKey(dateForDay(day));days[key]=integrationRecord(day,days[key])}const payload={version:1,app:'ten-category-bible-reading',appUrl:new URL('./',location.href).href,planStartDate:state.startDate,updatedAt:new Date().toISOString(),days};try{localStorage.setItem(INTEGRATION_KEY,JSON.stringify(payload))}catch{const selected=integrationRecord(state.selectedDay,days[localDateKey(dateForDay(state.selectedDay))]);payload.days={[selected.date]:selected};try{localStorage.setItem(INTEGRATION_KEY,JSON.stringify(payload))}catch{}}try{integrationChannel?.postMessage({type:'bible-progress',date:localDateKey(dateForDay(state.selectedDay)),completed:dayReadCount(state.selectedDay),total:10})}catch{}}
-function safeReturnUrl(raw){if(!raw)return'';try{const url=new URL(raw,location.href);return url.origin===location.origin?url.href:''}catch{return''}}
-function handoffReturnUrl(){if(!returnUrl)return'';const url=new URL(returnUrl);const count=dayReadCount(state.selectedDay),next=nextRegularItem(state.selectedDay);url.searchParams.set('integration','bible');url.searchParams.set('date',localDateKey(dateForDay(state.selectedDay)));url.searchParams.set('completed',String(count));url.searchParams.set('total','10');if(count===10)url.searchParams.set('completedAt',state.completionTimes[String(state.selectedDay)]||new Date().toISOString());if(next)url.searchParams.set('next',next.reference);return url.href}
-function consumeLaunchParams(){const params=new URLSearchParams(location.search);launchedFromRoutine=params.get('source')==='daily-routine';returnUrl=safeReturnUrl(params.get('return'));if(launchedFromRoutine){const requested=params.get('date');if(/^\d{4}-\d{2}-\d{2}$/.test(requested||''))state.selectedDay=dayForDateKey(requested);saveState()}try{integrationChannel=new BroadcastChannel(INTEGRATION_CHANNEL)}catch{integrationChannel=null}}
-function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]))}
+function saveState() { localStorage.setItem(STORAGE_KEY,JSON.stringify(state)); }
+function showToast(message) {
+  const el=$("toast"); el.textContent=message; el.classList.add("show");
+  clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>el.classList.remove("show"),1800);
+}
+function storageId(day,category) { return `d${day}c${category}`; }
+function getReading(day,category) {
+  const sequence=sequences[category];
+  return sequence[(day-1)%sequence.length];
+}
+function dateForDay(day) {
+  const [y,m,d]=state.startDate.split("-").map(Number);
+  const result=new Date(y,m-1,d); result.setDate(result.getDate()+day-1); return result;
+}
+function formatDate(date) {
+  return new Intl.DateTimeFormat(undefined,{weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(date);
+}
+function todayDayNumber() {
+  const [y,m,d]=state.startDate.split("-").map(Number);
+  const start=new Date(y,m-1,d);
+  const now=new Date(); const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  return Math.min(365,Math.max(1,Math.floor((today-start)/86400000)+1));
+}
+function dayReadCount(day) {
+  let count=0;
+  for(let c=1;c<=10;c++) if(state.checked[storageId(day,c)]) count++;
+  return count;
+}
+function dayComplete(day) { return dayReadCount(day)===10; }
+function isSkipped(day) { return Boolean(state.skippedDays[String(day)]); }
+function missedDays() {
+  const today=todayDayNumber(); const result=[];
+  for(let day=1;day<today;day++) if(!dayComplete(day) && !isSkipped(day)) result.push(day);
+  return result;
+}
+function incompleteForDay(day) {
+  const items=[];
+  for(let category=1;category<=10;category++) {
+    if(!state.checked[storageId(day,category)]) items.push({sourceDay:day,category});
+  }
+  return items;
+}
+function cleanupAssignments() {
+  const seen=new Set();
+  state.catchUpAssignments=state.catchUpAssignments.filter(item=>{
+    const id=storageId(item.sourceDay,item.category);
+    const key=`${id}-t${item.targetDay}`;
+    if(state.checked[id] || seen.has(key)) return false;
+    seen.add(key); return true;
+  });
+}
+function assignmentsForDay(day) {
+  cleanupAssignments();
+  return state.catchUpAssignments.filter(a=>a.targetDay===day && !state.checked[storageId(a.sourceDay,a.category)]);
+}
+function annualCheckedCount() {
+  let total=0;
+  for(let day=1;day<=365;day++) for(let c=1;c<=10;c++) if(state.checked[storageId(day,c)]) total++;
+  return total;
+}
+function categoryCheckedCount(category) {
+  let count=0;
+  for(let day=1;day<=365;day++) if(state.checked[storageId(day,category)]) count++;
+  return count;
+}
+function readingDescriptor(item) {
+  const reference=getReading(item.sourceDay,item.category);
+  return {...item,reference,id:storageId(item.sourceDay,item.category)};
+}
+function lsbAudioUrl(reference) {
+  return `https://www.youtube.com/@lsbaudiobible/search?query=${encodeURIComponent(reference)}`;
+}
+function nextUnfinishedItem() {
+  const day=state.selectedDay;
+  for(let category=1;category<=10;category++) {
+    if(!state.checked[storageId(day,category)]) return readingDescriptor({sourceDay:day,category,targetDay:day,kind:"regular"});
+  }
+  const extra=assignmentsForDay(day)[0];
+  if(extra) return readingDescriptor({...extra,kind:"catchup"});
+  return null;
+}
+function openReading(item) {
+  if(!item) return;
+  state.lastOpened={sourceDay:item.sourceDay,category:item.category,targetDay:state.selectedDay,mode:"read"};
+  saveState(); renderContinue();
+  window.open(`https://read.lsbible.org/?q=${encodeURIComponent(item.reference)}`,"_blank","noopener");
+}
+function openListening(item) {
+  if(!item) return;
+  state.lastOpened={sourceDay:item.sourceDay,category:item.category,targetDay:state.selectedDay,mode:"listen"};
+  saveState(); renderContinue();
+  window.open(lsbAudioUrl(item.reference),"_blank","noopener");
+}
+function markItemComplete(item) {
+  if(!item) return;
+  state.checked[storageId(item.sourceDay,item.category)]=true;
+  cleanupAssignments(); saveState();
+}
+function nextAfterLastOpened() {
+  if(!state.lastOpened) return null;
+  const item=readingDescriptor(state.lastOpened);
+  if(state.checked[item.id]) return null;
+  return item;
+}
 
-$('previousDay').onclick=()=>{state.selectedDay=Math.max(1,state.selectedDay-1);saveState();render()};$('nextDay').onclick=()=>{state.selectedDay=Math.min(365,state.selectedDay+1);saveState();render()};$('todayButton').onclick=()=>{state.selectedDay=todayDayNumber();saveState();render()};$('markDayButton').onclick=()=>{const before=dayComplete(state.selectedDay);for(let c=1;c<=10;c++)state.checked[storageId(state.selectedDay,c)]=true;if(!before)state.completionTimes[String(state.selectedDay)]=new Date().toISOString();cleanupAssignments();saveState();render();showToast('Day marked complete')};$('clearDayButton').onclick=()=>{for(let c=1;c<=10;c++)delete state.checked[storageId(state.selectedDay,c)];delete state.completionTimes[String(state.selectedDay)];saveState();render();showToast('Day cleared')};$('readNextButton').onclick=()=>openReading(nextUnfinishedItem());$('completeAndNextButton').onclick=()=>{const last=nextAfterLastOpened();if(!last)return;markItemComplete(last);state.lastOpened=null;saveState();render();const next=nextUnfinishedItem();if(next)openReading(next);else showToast('Selected day complete')};$('openMissedButton').onclick=()=>{const missed=missedDays();if(!missed.length)return;state.selectedDay=missed[0];saveState();render()};$('skipMissedButton').onclick=()=>{const missed=missedDays();if(!missed.length)return;const day=missed[0];state.skippedDays[String(day)]=true;state.catchUpAssignments=state.catchUpAssignments.filter(a=>a.sourceDay!==day);saveState();render();showToast(`Day ${day} skipped`)};$('unskipDayButton').onclick=()=>{delete state.skippedDays[String(state.selectedDay)];saveState();render();showToast('Selected day restored')};$('spreadMissedButton').onclick=()=>{const missed=missedDays();if(!missed.length)return;const sourceDay=missed[0],items=incompleteForDay(sourceDay),spread=Math.max(2,Number($('spreadDays').value)||3),today=todayDayNumber();state.catchUpAssignments=state.catchUpAssignments.filter(a=>a.sourceDay!==sourceDay);items.forEach((item,index)=>state.catchUpAssignments.push({...item,targetDay:Math.min(365,today+(index%spread))}));saveState();render();showToast(`Day ${sourceDay} spread across ${spread} days`)};$('startDate').onchange=()=>{if(!$('startDate').value)return;state.startDate=$('startDate').value;saveState();render();showToast('Start date updated')};$('dayNumber').onchange=()=>{state.selectedDay=Math.min(365,Math.max(1,Number($('dayNumber').value)||1));saveState();render()};$('exportButton').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='bible-reading-progress.json';a.click();URL.revokeObjectURL(url);showToast('Progress exported')};$('importInput').onchange=async event=>{const file=event.target.files?.[0];if(!file)return;try{state=normalizeState(JSON.parse(await file.text()));saveState();render();showToast('Progress imported')}catch{alert('That file could not be imported.')}event.target.value=''};$('resetButton').onclick=()=>{if(!confirm('Reset the plan and erase all progress, skipped days, and catch-up assignments?'))return;state=normalizeState({});state.selectedDay=todayDayNumber();saveState();render();showToast('Plan reset')};$('returnToRoutineButton').onclick=()=>{publishIntegration();const target=handoffReturnUrl();if(target)location.assign(target);else showToast('No Daily Routine return address was provided')};
+function renderCard(item,catchup=false) {
+  const descriptor=readingDescriptor(item);
+  const checked=Boolean(state.checked[descriptor.id]);
+  const total=sequences[item.category].length;
+  const position=((item.sourceDay-1)%total)+1;
+  const card=document.createElement("article");
+  card.className=`reading-card${checked?" done":""}${catchup?" catchup":""}`;
+  card.innerHTML=`
+    <input class="check" type="checkbox" ${checked?"checked":""} aria-label="Mark ${descriptor.reference} complete">
+    <div>
+      <div class="category-label">${catchup?`Catch-up · Day ${item.sourceDay} · `:""}Category ${item.category}</div>
+      <div class="reference">${descriptor.reference}</div>
+      <div class="cycle-note">${catchup?"Scheduled catch-up reading":`Chapter ${position} of ${total} in this category cycle`}</div>
+      <div class="reading-footer">
+        <div class="actions">
+          <button class="btn small read-card-button">Read in LSB ↗</button>
+          <button class="btn audio small listen-card-button">▶ Listen in LSB</button>
+        </div>
+        ${catchup?`<button class="btn small remove-extra-button">Remove extra</button>`:""}
+      </div>
+    </div>`;
+  const checkbox=card.querySelector(".check");
+  checkbox.addEventListener("change",()=>{
+    if(checkbox.checked) state.checked[descriptor.id]=true;
+    else delete state.checked[descriptor.id];
+    cleanupAssignments(); saveState(); render();
+  });
+  card.querySelector(".read-card-button").addEventListener("click",()=>openReading(descriptor));
+  card.querySelector(".listen-card-button").addEventListener("click",()=>openListening(descriptor));
+  const remove=card.querySelector(".remove-extra-button");
+  if(remove) remove.addEventListener("click",()=>{
+    state.catchUpAssignments=state.catchUpAssignments.filter(a=>!(
+      a.sourceDay===item.sourceDay && a.category===item.category && a.targetDay===item.targetDay
+    ));
+    saveState(); render(); showToast("Catch-up extra removed");
+  });
+  return card;
+}
 
-consumeLaunchParams();if(!localStorage.getItem(STORAGE_KEY)){state.selectedDay=todayDayNumber();saveState()}if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));render();if(launchedFromRoutine&&new URLSearchParams(location.search).get('continue')==='1')setTimeout(()=>document.querySelector('.reading-card.next-up')?.scrollIntoView({behavior:'smooth',block:'center'}),350);
-})();
+function renderContinue() {
+  const last=nextAfterLastOpened();
+  const next=nextUnfinishedItem();
+  $("completeAndNextButton").hidden=!last;
+  if(last) {
+    const mode=state.lastOpened?.mode==="listen" ? "listening to" : "reading";
+    $("nextReadingTitle").textContent=`Finished ${last.reference}?`;
+    $("nextReadingMeta").textContent=`You were ${mode} this chapter. Mark it complete, then continue in the same mode.`;
+    $("completeAndNextButton").textContent=state.lastOpened?.mode==="listen"
+      ? "Mark Read & Listen Next"
+      : "Mark Read & Open Next";
+  } else if(next) {
+    $("nextReadingTitle").textContent=next.reference;
+    $("nextReadingMeta").textContent=`Day ${next.sourceDay}, Category ${next.category}${next.kind==="catchup"?" · Catch-up":""}`;
+  } else {
+    $("nextReadingTitle").textContent="Selected day is complete";
+    $("nextReadingMeta").textContent="There are no unfinished readings scheduled for this day.";
+  }
+  $("readNextButton").disabled=!next;
+  $("listenNextButton").disabled=!next;
+}
+
+function renderCatchup() {
+  const missed=missedDays();
+  const missedReadingTotal=missed.reduce((sum,day)=>sum+incompleteForDay(day).length,0);
+  $("missedDaysCount").textContent=missed.length;
+  $("missedReadingsCount").textContent=missedReadingTotal;
+  $("earliestMissed").textContent=missed.length?`Day ${missed[0]}`:"—";
+  $("openMissedButton").disabled=!missed.length;
+  $("spreadMissedButton").disabled=!missed.length;
+  $("skipMissedButton").disabled=!missed.length;
+  $("unskipDayButton").disabled=!isSkipped(state.selectedDay);
+}
+
+function renderCategoryProgress() {
+  const container=$("categoryProgressGrid"); container.innerHTML="";
+  const today=todayDayNumber();
+  for(let category=1;category<=10;category++) {
+    const completed=categoryCheckedCount(category);
+    const percent=completed/365*100;
+    const cycleLength=sequences[category].length;
+    const cycle=Math.floor((today-1)/cycleLength)+1;
+    const position=((today-1)%cycleLength)+1;
+    const reference=getReading(today,category);
+    const el=document.createElement("div");
+    el.className="category-progress";
+    el.innerHTML=`
+      <div class="category-progress-head"><span>Category ${category}</span><span>${completed}/365</span></div>
+      <div class="category-progress-meta">Today: ${reference} · Cycle ${cycle}, chapter ${position} of ${cycleLength}</div>
+      <div class="category-bar"><div class="category-bar-fill" style="width:${percent}%"></div></div>`;
+    container.appendChild(el);
+  }
+}
+
+function render() {
+  cleanupAssignments();
+  const day=state.selectedDay;
+  $("dayTitle").textContent=`Day ${day}${isSkipped(day)?" · Skipped":""}`;
+  $("dateTitle").textContent=formatDate(dateForDay(day));
+  $("startDate").value=state.startDate;
+  $("dayNumber").value=day;
+
+  grid.innerHTML="";
+  for(let category=1;category<=10;category++) grid.appendChild(renderCard({sourceDay:day,category,targetDay:day},false));
+
+  const extras=assignmentsForDay(day);
+  extras.forEach(extra=>grid.appendChild(renderCard(extra,true)));
+
+  const checked=dayReadCount(day);
+  const annual=annualCheckedCount();
+  $("dayProgress").textContent=`${checked} of 10${extras.length?` + ${extras.length} catch-up`:""}`;
+  $("yearProgress").textContent=`${annual.toLocaleString()} of 3,650`;
+  $("progressFill").style.width=`${annual/3650*100}%`;
+  $("previousDay").disabled=day<=1;
+  $("nextDay").disabled=day>=365;
+  $("markDayButton").textContent=checked===10?"Day Complete ✓":"Mark Day Complete";
+
+  renderContinue(); renderCatchup(); renderCategoryProgress(); saveState();
+}
+
+$("previousDay").onclick=()=>{state.selectedDay=Math.max(1,state.selectedDay-1);saveState();render();};
+$("nextDay").onclick=()=>{state.selectedDay=Math.min(365,state.selectedDay+1);saveState();render();};
+$("todayButton").onclick=()=>{state.selectedDay=todayDayNumber();saveState();render();};
+$("markDayButton").onclick=()=>{
+  for(let c=1;c<=10;c++) state.checked[storageId(state.selectedDay,c)]=true;
+  cleanupAssignments(); saveState(); render(); showToast("Day marked complete");
+};
+$("clearDayButton").onclick=()=>{
+  for(let c=1;c<=10;c++) delete state.checked[storageId(state.selectedDay,c)];
+  saveState(); render(); showToast("Day cleared");
+};
+$("readNextButton").onclick=()=>openReading(nextUnfinishedItem());
+$("listenNextButton").onclick=()=>openListening(nextUnfinishedItem());
+$("completeAndNextButton").onclick=()=>{
+  const last=nextAfterLastOpened();
+  if(!last) return;
+  const mode=state.lastOpened?.mode==="listen" ? "listen" : "read";
+  markItemComplete(last); state.lastOpened=null; saveState(); render();
+  const next=nextUnfinishedItem();
+  if(next) {
+    if(mode==="listen") openListening(next);
+    else openReading(next);
+  } else showToast("Selected day complete");
+};
+$("openMissedButton").onclick=()=>{
+  const missed=missedDays(); if(!missed.length)return;
+  state.selectedDay=missed[0]; saveState(); render();
+};
+$("skipMissedButton").onclick=()=>{
+  const missed=missedDays(); if(!missed.length)return;
+  const day=missed[0];
+  state.skippedDays[String(day)]=true;
+  state.catchUpAssignments=state.catchUpAssignments.filter(a=>a.sourceDay!==day);
+  saveState(); render(); showToast(`Day ${day} skipped`);
+};
+$("unskipDayButton").onclick=()=>{
+  delete state.skippedDays[String(state.selectedDay)];
+  saveState(); render(); showToast("Selected day restored");
+};
+$("spreadMissedButton").onclick=()=>{
+  const missed=missedDays(); if(!missed.length)return;
+  const sourceDay=missed[0];
+  const items=incompleteForDay(sourceDay);
+  const spread=Math.max(2,Number($("spreadDays").value)||3);
+  const today=todayDayNumber();
+  state.catchUpAssignments=state.catchUpAssignments.filter(a=>a.sourceDay!==sourceDay);
+  items.forEach((item,index)=>{
+    const targetDay=Math.min(365,today+(index%spread));
+    state.catchUpAssignments.push({...item,targetDay});
+  });
+  saveState(); render();
+  showToast(`Day ${sourceDay} spread across ${spread} days`);
+};
+$("startDate").onchange=()=>{
+  if(!$("startDate").value)return;
+  state.startDate=$("startDate").value; saveState(); render(); showToast("Start date updated");
+};
+$("dayNumber").onchange=()=>{
+  state.selectedDay=Math.min(365,Math.max(1,Number($("dayNumber").value)||1));
+  saveState(); render();
+};
+$("exportButton").onclick=()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob); const a=document.createElement("a");
+  a.href=url; a.download="bible-reading-progress.json"; a.click(); URL.revokeObjectURL(url);
+  showToast("Progress exported");
+};
+$("importInput").onchange=async event=>{
+  const file=event.target.files?.[0]; if(!file)return;
+  try { state=normalizeState(JSON.parse(await file.text())); saveState(); render(); showToast("Progress imported"); }
+  catch { alert("That file could not be imported."); }
+  event.target.value="";
+};
+$("resetButton").onclick=()=>{
+  if(!confirm("Reset the plan and erase all progress, skipped days, and catch-up assignments?"))return;
+  state=normalizeState({}); state.selectedDay=todayDayNumber(); saveState(); render(); showToast("Plan reset");
+};
+
+if(!localStorage.getItem(STORAGE_KEY)) {
+  state.selectedDay=todayDayNumber(); saveState();
+}
+if("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
+}
+render();
 </script>
 </body>
 </html>

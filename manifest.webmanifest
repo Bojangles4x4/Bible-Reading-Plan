@@ -1,7 +1,7 @@
 {
   "name": "Ten-Category Bible Reading Plan",
   "short_name": "Bible Plan",
-  "description": "A 365-day Bible reading tracker with LSB links, catch-up mode, category progress, and Daily Routine integration.",
+  "description": "A 365-day Bible reading tracker with LSB reading and audio links, catch-up mode, category progress, and continuous reading/listening.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -9,7 +9,17 @@
   "theme_color": "#1f3a5f",
   "orientation": "portrait-primary",
   "icons": [
-    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
