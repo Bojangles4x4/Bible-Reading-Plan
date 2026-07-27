@@ -148,7 +148,7 @@
   <header>
     <div class="eyebrow">365-Day Plan</div>
     <h1>Ten-Category Bible Reading</h1>
-    <p>Read or listen to one chapter from each category in the Legacy Standard Bible, then keep moving through the plan without losing your place.</p>
+    <p>Read or play one chapter from each category in the Legacy Standard Bible, then keep moving through the plan without losing your place.</p>
   </header>
 
   <section class="toolbar" aria-label="Day navigation">
@@ -182,7 +182,7 @@
       </div>
       <div class="actions">
         <button class="btn primary small" id="readNextButton">Read Next in LSB</button>
-        <button class="btn audio small" id="listenNextButton">▶ Listen Next in LSB</button>
+        <button class="btn audio small" id="listenNextButton">▶ Play Next LSB Chapter</button>
         <button class="btn success small" id="completeAndNextButton" hidden>Mark Read & Continue</button>
       </div>
     </div>
@@ -239,7 +239,7 @@
   </details>
 
   <p class="footnote">
-    Catch-up extras remain linked to their original day. Audio opens the licensed LSB Audio Bible channel and searches that channel for the selected chapter.
+    Catch-up extras remain linked to their original day. Audio resolves the exact licensed LSB Audio Bible chapter video and opens its YouTube watch page.
   </p>
 </main>
 <div class="toast" id="toast"></div>
@@ -350,8 +350,22 @@ function readingDescriptor(item) {
   const reference=getReading(item.sourceDay,item.category);
   return {...item,reference,id:storageId(item.sourceDay,item.category)};
 }
+const DIRECT_LSB_AUDIO = {
+  // Verified direct chapter URLs. More can be added here without changing the app logic.
+  "Genesis 1": "https://www.youtube.com/watch?v=24yLtdMkufw",
+  "Genesis 22": "https://www.youtube.com/watch?v=rr1HAu9C7CI"
+};
+
 function lsbAudioUrl(reference) {
-  return `https://www.youtube.com/@lsbaudiobible/search?query=${encodeURIComponent(reference)}`;
+  // Use a verified direct link when one is known.
+  if (DIRECT_LSB_AUDIO[reference]) return DIRECT_LSB_AUDIO[reference];
+
+  // Otherwise use Google's "I'm Feeling Lucky" behavior with the exact licensed
+  // LSB Audio Bible video title. This normally redirects straight to the chapter's
+  // YouTube watch page instead of showing the channel/search screen.
+  const exactTitle = `"${reference} - Legacy Standard Bible (LSB) - Audio"`;
+  const query = `site:youtube.com/watch ${exactTitle} "LSB Audio Bible"`;
+  return `https://www.google.com/search?btnI=1&q=${encodeURIComponent(query)}`;
 }
 function nextUnfinishedItem() {
   const day=state.selectedDay;
@@ -402,7 +416,7 @@ function renderCard(item,catchup=false) {
       <div class="reading-footer">
         <div class="actions">
           <button class="btn small read-card-button">Read in LSB ↗</button>
-          <button class="btn audio small listen-card-button">▶ Listen in LSB</button>
+          <button class="btn audio small listen-card-button">▶ Play LSB Chapter</button>
         </div>
         ${catchup?`<button class="btn small remove-extra-button">Remove extra</button>`:""}
       </div>
@@ -434,7 +448,7 @@ function renderContinue() {
     $("nextReadingTitle").textContent=`Finished ${last.reference}?`;
     $("nextReadingMeta").textContent=`You were ${mode} this chapter. Mark it complete, then continue in the same mode.`;
     $("completeAndNextButton").textContent=state.lastOpened?.mode==="listen"
-      ? "Mark Read & Listen Next"
+      ? "Mark Complete & Play Next"
       : "Mark Read & Open Next";
   } else if(next) {
     $("nextReadingTitle").textContent=next.reference;

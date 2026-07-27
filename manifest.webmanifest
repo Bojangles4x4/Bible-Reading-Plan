@@ -1,7 +1,7 @@
 {
   "name": "Ten-Category Bible Reading Plan",
   "short_name": "Bible Plan",
-  "description": "A 365-day Bible reading tracker with LSB reading and audio links, catch-up mode, category progress, and continuous reading/listening.",
+  "description": "A 365-day Bible reading tracker with direct LSB chapter reading and audio links, catch-up mode, category progress, and continuous reading/listening.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
