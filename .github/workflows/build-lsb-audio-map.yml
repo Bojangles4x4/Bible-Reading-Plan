@@ -1,0 +1,88 @@
+name: Build verified LSB audio map
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - v7-audio-map
+    paths:
+      - ".github/workflows/build-lsb-audio-map.yml"
+      - "tools/build_lsb_audio_map.py"
+      - "tools/collect_youtube_api.py"
+
+permissions:
+  contents: write
+
+jobs:
+  build-map:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install yt-dlp
+        run: python -m pip install --upgrade yt-dlp
+
+      - name: Collect official channel catalog with yt-dlp
+        id: ytdlp
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          yt-dlp \
+            --flat-playlist \
+            --dump-json \
+            --no-warnings \
+            "https://www.youtube.com/@lsbaudiobible/videos" \
+            > lsb-channel.jsonl
+          test -s lsb-channel.jsonl
+
+      - name: Use YouTube Data API fallback
+        if: steps.ytdlp.outcome != 'success'
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: |
+          python tools/collect_youtube_api.py \
+            --output lsb-channel.jsonl \
+            --handle lsbaudiobible
+
+      - name: Build and strictly validate all 1,189 chapters
+        run: |
+          python tools/build_lsb_audio_map.py \
+            --input lsb-channel.jsonl \
+            --output lsb-audio-map.json \
+            --report lsb-audio-map-report.json \
+            --strict
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lsb-audio-map-validation
+          path: |
+            lsb-audio-map.json
+            lsb-audio-map-report.json
+            lsb-channel.jsonl
+          if-no-files-found: warn
+
+      - name: Commit verified map
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lsb-audio-map.json lsb-audio-map-report.json
+          if git diff --cached --quiet; then
+            echo "No map changes to commit."
+          else
+            git commit -m "Build verified LSB audio chapter map"
+            git push
+          fi
