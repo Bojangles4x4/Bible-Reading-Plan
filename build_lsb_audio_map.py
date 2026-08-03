@@ -88,11 +88,23 @@ def read_entries(path: Path) -> list[dict[str, Any]]:
     if not text:
         return []
 
-    # yt-dlp --dump-single-json
-    if text.startswith("{"):
+        # Accept either one JSON document or yt-dlp JSON Lines.
+    try:
         obj = json.loads(text)
+    except json.JSONDecodeError:
+        obj = None
+
+    if isinstance(obj, dict):
         if isinstance(obj.get("entries"), list):
-            return [entry for entry in obj["entries"] if isinstance(entry, dict)]
+            return [
+                entry
+                for entry in obj["entries"]
+                if isinstance(entry, dict)
+            ]
+        return [obj]
+
+    if isinstance(obj, list):
+        return [entry for entry in obj if isinstance(entry, dict)]
 
     entries = []
     for line_no, line in enumerate(text.splitlines(), start=1):
