@@ -138,16 +138,19 @@ PATTERNS = compile_patterns()
 
 def identify_reference(title: str) -> str | None:
     cleaned = re.sub(r"\s+", " ", title).strip()
-    matches: list[str] = []
+
+    # Patterns are ordered longest-first, so "1 John" is checked
+    # before the shorter book name "John".
     for canonical, max_chapter, pattern in PATTERNS:
         found = pattern.search(cleaned)
         if not found:
             continue
+
         chapter = int(found.group(1))
         if 1 <= chapter <= max_chapter:
-            matches.append(f"{canonical} {chapter}")
-    unique = list(dict.fromkeys(matches))
-    return unique[0] if len(unique) == 1 else None
+            return f"{canonical} {chapter}"
+
+    return None
 
 def video_id(entry: dict[str, Any]) -> str | None:
     candidate = entry.get("id") or entry.get("videoId")
