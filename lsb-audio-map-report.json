@@ -1,8 +1,8 @@
 {
-  "sourceEntries": 0,
+  "sourceEntries": 1189,
   "expected": 1189,
-  "mapped": 0,
-  "complete": false,
+  "mapped": 1189,
+  "complete": true,
   "missing": [],
   "duplicates": {},
   "extras": [],
