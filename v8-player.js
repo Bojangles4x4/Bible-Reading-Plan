@@ -223,8 +223,9 @@
     const completedReference = activeItem.reference;
     markItemComplete(activeItem);
     state.lastOpened = null;
-    saveState();
-    showToast(`${completedReference} marked complete`);
+saveState();
+render();
+showToast(`${completedReference} marked complete`);
     return true;
   }
 
