@@ -1,0 +1,14 @@
+At the very bottom of index.html, replace:
+
+render();
+loadAudioMap();
+</script>
+</body>
+
+with:
+
+render();
+loadAudioMap();
+</script>
+<script src="./v8-player.js?v=8"></script>
+</body>
